@@ -1,5 +1,6 @@
 #参考　https://corgi-lab.com/diary/github-weekly-grass/
-
+import os
+import inspect
 from urllib import request
 from bs4 import BeautifulSoup
 
