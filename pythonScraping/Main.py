@@ -2,6 +2,9 @@ import os
 from urllib import request
 from bs4 import BeautifulSoup
 from datetime import datetime
+def callJavaFile():
+    #ここでjavafileをコール
+    print("JavaFileをcall")
 def main():
     #DBに入っている全ユーザーの"username"を取得して回す
     # GitHubのユーザー名
