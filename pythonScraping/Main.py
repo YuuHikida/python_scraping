@@ -1,8 +1,9 @@
 import os
 from urllib import request
 from bs4 import BeautifulSoup
+from datetime import datetime
 
-# usernameをmysqlから取得
+# GitHubのユーザー名
 username = "YuuHikida"
 url = "https://github.com/users/" + username + "/contributions"
 response = request.urlopen(url)
@@ -11,22 +12,30 @@ response = request.urlopen(url)
 soup = BeautifulSoup(response, "html.parser")
 response.close()
 
+# 現在の日付を取得 (YYYY-MM-DDの形式)
+today = datetime.today().strftime('%Y-%m-%d')
+print(f"Today's date: {today}")
+
 # コントリビューション情報を抽出
 contributions = soup.find_all("td", class_="ContributionCalendar-day")
 
-# 各日付毎にコントリビューション数を取得してリストに追加
-contrib_list = []
-#　以下はリスト
+# 今日のコントリビューションがあったかどうかを示すフラグ
+found_today = False
+
+# 各日付毎にコントリビューション数を確認
 for day in contributions:
     date = day.get("data-date")
-    count = day.get("data-level")  # data-levelはコントリビューション数のレベルを表す
-    if int(count) > 0:  # コントリビューションがあった場合
-        contrib_list.append((date, count))
+    if date is not None:
+        date = date.strip()
+        print(f"Scraped date: {date}")  # 取得した日付を表示
+        if date == today:
+            count = int(day.get("data-level"))
+            if count > 0:  # コントリビューションがあった場合
+                found_today = True
+            break  # 今日の日付を見つけたらループを抜ける
 
-# 日付順にソート
-contrib_list.sort(key=lambda x: x[0])
-
-# ソートされたコントリビューション情報を表示
-print("contributions:")
-for date, count in contrib_list:
-    print(date, ":", count)
+# 今日のコントリビューションがあったかどうかを表示
+if found_today:
+    print(f"今日はコントリビューションがあります 日付: {today}")
+else:
+    print(f"今日はコントリビューションがありません 日付: {today}")
