@@ -14,10 +14,19 @@ response.close()
 # コントリビューション情報を抽出
 contributions = soup.find_all("td", class_="ContributionCalendar-day")
 
-# 各日付毎にコントリビューション数を表示
-print("contributions:")
+# 各日付毎にコントリビューション数を取得してリストに追加
+contrib_list = []
+#　以下はリスト
 for day in contributions:
     date = day.get("data-date")
     count = day.get("data-level")  # data-levelはコントリビューション数のレベルを表す
     if int(count) > 0:  # コントリビューションがあった場合
-        print(date, ":", count)
+        contrib_list.append((date, count))
+
+# 日付順にソート
+contrib_list.sort(key=lambda x: x[0])
+
+# ソートされたコントリビューション情報を表示
+print("contributions:")
+for date, count in contrib_list:
+    print(date, ":", count)
