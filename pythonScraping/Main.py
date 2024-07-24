@@ -2,11 +2,15 @@ import os
 from urllib import request
 from bs4 import BeautifulSoup
 from datetime import datetime
-def callJavaFile():
-    #ここでjavafileをコール
+
+
+def call_java_file():
+    # ここでjava_fileをコール
     print("JavaFileをcall")
+
+
 def main():
-    #DBに入っている全ユーザーの"username"を取得して回す
+    # DBに入っている全ユーザーの"username"を取得して回す
     # GitHubのユーザー名
     username = "YuuHikida"
     url = "https://github.com/users/" + username + "/contributions"
@@ -43,7 +47,9 @@ def main():
         print(f"今日はコントリビューションがあります 日付: {today}")
     else:
         print(f"今日はコントリビューションがありません 日付: {today}")
-        #以下　DBからidをjavaプログラムへ飛ばす
+        # 以下　DBからidをjavaプログラムへ飛ばす
+        call_java_file()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
