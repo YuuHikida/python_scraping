@@ -8,6 +8,7 @@ def call_java_file():
     # ここでjava_fileをコール
     print("JavaFileをcall")
 
+    print("tuukareta");
 
 def main():
     # DBに入っている全ユーザーの"username"を取得して回す
