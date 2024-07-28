@@ -8,8 +8,9 @@ def call_java_file():
     # ここでjava_fileをコール
     print("JavaFileをcall")
 
-    print("tuukareta");
-    print("doasdksada");
+    print("tuukareta")
+    print("doasdksada")
+
 
 def main():
     # DBに入っている全ユーザーの"username"を取得して回す
@@ -33,16 +34,26 @@ def main():
     found_today = False
 
     # 各日付毎にコントリビューション数を確認
+    contribution_dates = []
+
     for day in contributions:
         date = day.get("data-date")
         if date is not None:
             date = date.strip()
+            # 日付をリストに追加
+            contribution_dates.append(date)
             if date == today:
                 # contributeを取得
                 count = int(day.get("data-level"))
                 if count > 0:
                     found_today = True
                 break  # 今日の日付を見つけたらループを抜ける
+
+    # 日付をソート
+    contribution_dates.sort()
+    print("Sorted contribution dates:")
+    for date in contribution_dates:
+        print(f"{date}")
 
     # 今日のコントリビューションがあったかどうかを表示
     if found_today:
