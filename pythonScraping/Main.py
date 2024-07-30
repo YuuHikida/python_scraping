@@ -84,6 +84,7 @@ def main():
     )
     call_contributes()
     print("aaa")
+    print("asdas")
 
 if __name__ == '__main__':
     main()
