@@ -2,18 +2,15 @@ import os
 from urllib import request
 from bs4 import BeautifulSoup
 from datetime import datetime
+import MySQLdb
 
 
 def call_java_file():
     # ここでjava_fileをコール
-    print("JavaFileをcall")
-
-    print("tuukareta")
-    print("doasdksada")
+    print()
 
 
-def main():
-    # DBに入っている全ユーザーの"username"を取得して回す
+def call_contributes():
     # GitHubのユーザー名
     username = "YuuHikida"
     url = "https://github.com/users/" + username + "/contributions"
@@ -46,19 +43,6 @@ def main():
                 # 日付をリストに追加
                 contribution_dates.append(date)
 
-    # for day in contributions:
-    #     date = day.get("data-date")
-    #     if date is not None:
-    #         date = date.strip()
-    #         # 日付をリストに追加
-    #         contribution_dates.append(date)
-    #         if date == today:
-    #             # contributeを取得
-    #             count = int(day.get("data-level"))
-    #             if count > 0:
-    #                 found_today = True
-    #             break  # 今日の日付を見つけたらループを抜ける
-
     # 日付をソート
     contribution_dates.sort()
     print("以下Contributeがある日付のみをソート表示:¥n")
@@ -66,12 +50,15 @@ def main():
         print(f"{date}")
 
     # 本日のContributeがあったか表示
-    for push in contribution_dates:
-        if push is not None:
-            date = push.strip()
+    for day in contributions:
+        date = day.get("data-date")
+        if date is not None:
+            date = date.strip()
+            # 日付をリストに追加
+            # contribution_dates.append(date)
             if date == today:
                 # contributeを取得
-                count = int(push.get("data-level"))
+                count = int(day.get("data-level"))
                 if count > 0:
                     found_today = True
                 break  # 今日の日付を見つけたらループを抜ける
@@ -84,6 +71,19 @@ def main():
         # 以下　DBからidをjavaプログラムへ飛ばす
         call_java_file()
     print("------------------------------------------------")
+
+
+def main():
+    # DBに入っている全ユーザーの"username"を取得して回す
+    connection = MySQLdb.connect(
+        host='localhost',
+        user='root',
+        passwd='1121',
+        db='my_database'
+
+    )
+    call_contributes()
+
 
 if __name__ == '__main__':
     main()
