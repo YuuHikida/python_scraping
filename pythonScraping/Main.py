@@ -82,10 +82,22 @@ def main():
         db='my_database'
 
     )
+    cursor = connection.cursor()
+    cursor.execute("SELECT name FROM my_table")
+
+    results = cursor.fetchall()
+    print(results)
+
+    # 接続を閉じる
+    cursor.close()
+    connection.close()
+
+
     call_contributes()
     print("aaa")
     print("asdas")
     print("kyouhakoredeyurusiteS")
+
 
 if __name__ == '__main__':
     main()
