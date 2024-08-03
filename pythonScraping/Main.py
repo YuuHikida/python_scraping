@@ -84,9 +84,14 @@ def main():
     )
     cursor = connection.cursor()
     cursor.execute("SELECT name FROM my_table")
-
+    # タプルで格納されるs
     results = cursor.fetchall()
-    print(results)
+    first_last_name = results[0][0]
+    second_name = results[1][0]
+    print(first_last_name)  # 'HIKIDA'
+    print(second_name)
+
+    # print(results)
 
     # 接続を閉じる
     cursor.close()
