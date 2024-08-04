@@ -75,6 +75,7 @@ def call_contributes():
 
 def main():
     # DBに入っている全ユーザーの"username"を取得して回す
+    # connectionオブジェクトを作成した時点でDBに接続している
     connection = MySQLdb.connect(
         host='localhost',
         user='root',
@@ -82,6 +83,8 @@ def main():
         db='my_database'
 
     )
+
+    # cursorはDBと対話する関数
     cursor = connection.cursor()
     cursor.execute("SELECT name FROM my_table")
     # タプルで格納されるs
@@ -91,12 +94,9 @@ def main():
     print(first_last_name)  # 'HIKIDA'
     print(second_name)
 
-    # print(results)
-
     # 接続を閉じる
     cursor.close()
     connection.close()
-
 
     call_contributes()
     print("aaa")
