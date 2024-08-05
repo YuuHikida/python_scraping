@@ -99,9 +99,7 @@ def main():
     connection.close()
 
     call_contributes()
-    print("aaa")
-    print("asdas")
-    print("kyouhakoredeyurusiteS")
+    print("aaaa")
 
 
 if __name__ == '__main__':
