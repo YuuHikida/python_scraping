@@ -3,7 +3,7 @@ from urllib import request
 from bs4 import BeautifulSoup
 from datetime import datetime
 import MySQLdb
-
+import Mail_send
 
 def call_java_file():
     # ここでjava_fileをコール
@@ -69,7 +69,8 @@ def call_contributes():
     else:
         print(f"今日はコントリビューションがありません 日付: {today}")
         # 以下　DBからidをjavaプログラムへ飛ばす
-        call_java_file()
+        # 暫定的にpythonのmail送信機能を使う
+        Mail_send.main()
     print("------------------------------------------------")
 
 
@@ -99,7 +100,7 @@ def main():
     connection.close()
 
     call_contributes()
-    print("aaaa")
+
 
 
 if __name__ == '__main__':
