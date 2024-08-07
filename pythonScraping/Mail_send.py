@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
-def main():
+def mail_send():
     # SMTPサーバーの設定
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
@@ -11,6 +11,7 @@ def main():
     sender_password = "uolt lsgs vsxq frlp"
 
     # メールの構成
+    # ここをDBからmailを全取得する
     receiver_email = "ponponda0103@example.com"
     subject = "テストメール"
     body = "これはPythonから送信されたテストメールです。"
@@ -32,6 +33,3 @@ def main():
     finally:
         server.quit()  # サーバーから切断
 
-
-if __name__ == '__main__':
-    main()
