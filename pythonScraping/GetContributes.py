@@ -1,7 +1,7 @@
 from urllib import request
 from bs4 import BeautifulSoup
 from datetime import datetime
-from Mail_send import mail_send
+from MailSend import mail_send
 
 
 def call_contributes():
