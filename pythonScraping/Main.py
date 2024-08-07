@@ -2,9 +2,13 @@ import MySQLdb
 from Get_contributes import call_contributes
 
 
-def call_java_file():
-    # ここでjava_fileをコール
-    print()
+def db_call():
+    # ここでdbからメールをコール
+    # 今は全権取得予定
+    # 一番いいのは１日のはじめに全件取得し、リストにデータを格納しておき
+    # 上記を元にメールを送る方法
+    pass
+
 
 def main():
     # DBに入っている全ユーザーの"username"を取得して回す
