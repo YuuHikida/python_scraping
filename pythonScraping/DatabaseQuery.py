@@ -26,6 +26,7 @@ def db_call():
     second_name = results[1][0]
     print(first_last_name)  # 'HIKIDA'
     print(second_name)
+    print("dayls")
 
     # 接続を閉じる
     cursor.close()
