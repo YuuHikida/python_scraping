@@ -1,35 +1,16 @@
-import MySQLdb
-from GetContributes import call_contributes
 
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
-def db_call():
-    # ここでdbからメールをコール
-    # 今は全権取得予定
-    # 一番いいのは１日のはじめに全件取得し、リストにデータを格納しておき
-    # 上記を元にメールを送る方法
+uri = "mongodb+srv://root:<password>@gitinfocontributes.btqfi.mongodb.net/?retryWrites=true&w=majority&appName=gitInfoContributes"
 
-    # DBに入っている全ユーザーの"username"を取得して回す
-    # connectionオブジェクトを作成した時点でDBに接続している
-    connection = MySQLdb.connect(
-        host='localhost',
-        user='root',
-        passwd='1121',
-        db='my_database'
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
 
-    )
-    # cursorはDBと対話する関数
-    cursor = connection.cursor()
-    cursor.execute("SELECT name FROM my_table")
-    # タプルで格納されるs
-    results = cursor.fetchall()
-    first_last_name = results[0][0]
-    second_name = results[1][0]
-    print(first_last_name)  # 'HIKIDA'
-    print(second_name)
-    print("dayls")
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
 
-    # 接続を閉じる
-    cursor.close()
-    connection.close()
-
-    call_contributes()
