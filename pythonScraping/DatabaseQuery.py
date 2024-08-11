@@ -32,7 +32,7 @@ def db_call():
         print("MongoDB に正常接続")
         db_create(collection)
         print("データの読み取り開始します")
-
+        db_read(collection)
     except Exception as e:
         print(e)
 
@@ -45,7 +45,21 @@ def db_create(collection):
     }
 
     insert_result = collection.insert_one(new_document)
-    print(f"dbへの値が正常作成, document ID = {insert_result}")
+    print("【dbへの値が正常作成】")
+    print(f"document ID = {insert_result}")
+
+
+def db_read(collection):
+    # 全てのドキュメントを取得
+    documents = collection.find()
+    # ドキュメントを表示
+    for doc in documents:
+        print(doc)
+    # 特定の条件でドキュメントを取得
+    query = {"name": "John Doe"}
+    document = collection.find_one(query)
+    print("【DBの値正常読み取れました】")
+    print(document)
 
 
 # import os
