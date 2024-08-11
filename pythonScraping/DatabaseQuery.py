@@ -36,6 +36,8 @@ def db_call():
         db_read(collection)
         print("-- データの更新を開始します --")
         db_update(collection)
+        print("-- データの削除を開始します --")
+        db_delete(collection)
 
     except Exception as e:
         print(e)
@@ -76,3 +78,11 @@ def db_update(collection):
     update_result = collection.update_one(query, new_values)
     print(f"Matched documents: {update_result.matched_count}")
     print(f"Modified documents: {update_result.modified_count}")
+
+
+def db_delete(collection):
+    # 特定のドキュメントを削除
+    query = {"name": "HIKIDA YUU"}
+    delete_result = collection.delete_one(query)
+    print(f"Deleted documents: {delete_result.deleted_count}")
+
