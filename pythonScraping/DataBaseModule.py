@@ -41,14 +41,23 @@ def db_call():
 def db_read(collection):
     # 全てのドキュメントを取得
     documents = collection.find()
+
+    # ドキュメントリスト作成
+    docs_list = list(documents)
+
     # ドキュメントを表示
-    for doc in documents:
+    for doc in docs_list:
         print(doc)
+
+    # レコード数取得
+    documents_count = len(docs_list)
+
     # 特定の条件でドキュメントを取得
-    query = {"git_name": "TANAKA"}
-    document = collection.find_one(query)
+    # query = {"git_name": "YuuHikida"}
+    # document = collection.find_one(query)
+
     print("【DBの値正常読み取れました】")
-    print(document)
+    return documents_count, docs_list
 
 # CRUD操作 - 作成-
 # def db_create(collection):

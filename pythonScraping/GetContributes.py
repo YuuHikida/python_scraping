@@ -4,7 +4,9 @@ from datetime import datetime
 from MailSend import mail_send
 
 
-def call_contributes():
+def call_contributes(documents):
+
+    count = documents.count_documents({})
     # GitHubのユーザー名
     username = "YuuHikida"
     url = "https://github.com/users/" + username + "/contributions"

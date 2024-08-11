@@ -5,8 +5,13 @@ from GetContributes import call_contributes
 def main():
     # DBに問い合わせ
     client, collection = db_call()
+    # クエリでsortされたUser情報格納変数
+
     if client is not None and collection is not None:
-        db_read(collection)
+        document_count, documents = db_read(collection)
+
+        print(f"取得したドキュメントの数: {document_count}")
+        # call_contributes(documents)
         # DB閉じる
         client.close()
 
