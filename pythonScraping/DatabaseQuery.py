@@ -35,6 +35,8 @@ def db_call():
         db_read(collection)
     except Exception as e:
         print(e)
+    # DB close
+    client.close()
 
 
 # CRUD操作 - 作成-
