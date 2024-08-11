@@ -29,10 +29,14 @@ def db_call():
     try:
         # 以下はadminデータBSに対してping コマンドを使用
         client.admin.command('ping')
-        print("MongoDB に正常接続")
+        print("-- MongoDB に正常接続 --")
+        print("-- DBのデータを作成します --")
         db_create(collection)
-        print("データの読み取り開始します")
+        print("-- データの読み取り開始します --")
         db_read(collection)
+        print("-- データの更新を開始します --")
+        db_update(collection)
+
     except Exception as e:
         print(e)
     # DB close
@@ -58,38 +62,17 @@ def db_read(collection):
     for doc in documents:
         print(doc)
     # 特定の条件でドキュメントを取得
-    query = {"name": "John Doe"}
+    query = {"name": "TANAKA TAROU"}
     document = collection.find_one(query)
     print("【DBの値正常読み取れました】")
     print(document)
 
 
-# import os
-# from dotenv import load_dotenv
-# from urllib.parse import quote_plus
-# from pymongo import MongoClient
-#
-#
-# def db_call():
-#     # .envファイルを読み込む
-#     load_dotenv()
-#     username = os.getenv('USERNAME')
-#     password = os.getenv('PASSWORD')
-#
-#     # ユーザー名とパスワードをエスケープ
-#     escaped_username = quote_plus(username)
-#     escaped_password = quote_plus(password)
-#
-#     # 接続文字列を作成
-#     connection_url = (f"mongodb+srv://{escaped_username}:{escaped_password}@cluster.mongodb.net/myDatabase?retryWritestrue&w=majority")
-#
-#     # tls=TrueはMongoDB atlatsheへの接続をTLS(SSL)を有効にするオプション
-#     client = MongoClient(connection_url, tls=True)
-#     # client = MongoClient(connection_url, tls=True, tlsCertificateKeyFile='/path/to/certificate.pem')
-#
-#     db = client['testDB']
-#     collection = db['testCol']
-#     doc_count = collection.count_documents({})
-#     print(doc_count)
-#
-#
+def db_update(collection):
+    # 特定のドキュメントを更新
+    query = {"name": "TANAKA TAROU"}
+    new_values = {"$set": {"name": "HIKIDA YUU"}}
+
+    update_result = collection.update_one(query, new_values)
+    print(f"Matched documents: {update_result.matched_count}")
+    print(f"Modified documents: {update_result.modified_count}")
