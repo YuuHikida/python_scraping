@@ -17,13 +17,35 @@ def db_call():
 
     uri = (f"mongodb+srv://{escaped_username}:{escaped_password}@gitinfocontributes.btqfi.mongodb.net/?retryWrites"
            f"=true&w=majority&appName=gitInfoContributes")
+    # ↓DBサーバーにアクセスしているだけ
     client = MongoClient(uri, server_api=ServerApi('1'))
 
+    # 指定された名前のdbにアクセス
+    # 存在しない場合、仮想dbを作成しdataが挿入された時点で物理的なdbが作成される
+    db = client['gitInfoContributes']
+    # コレクション(テーブル)へのアクセス
+    collection = db['user_info']
+
     try:
+        # 以下はadminデータBSに対してping コマンドを使用
         client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
+        print("MongoDB に正常接続")
+        db_create(collection)
+        print("データの読み取り開始します")
+
     except Exception as e:
         print(e)
+
+
+# CRUD操作 - 作成-
+def db_create(collection):
+    new_document = {
+        "name": "TANAKA TAROU",
+        "mail": "sekandonoberu@yahoo.co.jp"
+    }
+
+    insert_result = collection.insert_one(new_document)
+    print(f"dbへの値が正常作成, document ID = {insert_result}")
 
 
 # import os
