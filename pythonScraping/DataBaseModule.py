@@ -29,32 +29,13 @@ def db_call():
     try:
         # 以下はadminデータBSに対してping コマンドを使用
         client.admin.command('ping')
-        print("-- MongoDB に正常接続 --")
-        print("-- DBのデータを作成します --")
-        db_create(collection)
-        print("-- データの読み取り開始します --")
-        db_read(collection)
-        print("-- データの更新を開始します --")
-        db_update(collection)
-        print("-- データの削除を開始します --")
-        db_delete(collection)
-
+        print("-- MongoDB に接続成功 --")
+        return client, collection
     except Exception as e:
         print(e)
-    # DB close
-    client.close()
-
-
-# CRUD操作 - 作成-
-def db_create(collection):
-    new_document = {
-        "name": "TANAKA TAROU",
-        "mail": "sekandonoberu@yahoo.co.jp"
-    }
-
-    insert_result = collection.insert_one(new_document)
-    print("【dbへの値が正常作成】")
-    print(f"document ID = {insert_result}")
+        # DB close
+        client.close()
+        return None, None
 
 
 def db_read(collection):
@@ -64,25 +45,40 @@ def db_read(collection):
     for doc in documents:
         print(doc)
     # 特定の条件でドキュメントを取得
-    query = {"name": "TANAKA TAROU"}
+    query = {"git_name": "TANAKA"}
     document = collection.find_one(query)
     print("【DBの値正常読み取れました】")
     print(document)
 
+# CRUD操作 - 作成-
+# def db_create(collection):
+#     new_document = {
+#         "git_name": "TANAKA",
+#         "mail": "sekandonoberu@yahoo.co.jp"
+#     }
+#     another_document = {
+#         "git_name": "HIKIDA",
+#         "mail": "ponponda0103@gmail.com"
+#     }
+#
+#     insert_result = collection.insert_one(new_document,another_document)
+#     print("【dbへの値が正常作成】")
+#     print(f"document ID = {insert_result}")
+#
 
-def db_update(collection):
-    # 特定のドキュメントを更新
-    query = {"name": "TANAKA TAROU"}
-    new_values = {"$set": {"name": "HIKIDA YUU"}}
 
-    update_result = collection.update_one(query, new_values)
-    print(f"Matched documents: {update_result.matched_count}")
-    print(f"Modified documents: {update_result.modified_count}")
+# def db_update(collection):
+#     # 特定のドキュメントを更新
+#     query = {"name": "TANAKA TAROU"}
+#     new_values = {"$set": {"name": "HIKIDA YUU"}}
+#
+#     update_result = collection.update_one(query, new_values)
+#     print(f"Matched documents: {update_result.matched_count}")
+#     print(f"Modified documents: {update_result.modified_count}")
 
 
-def db_delete(collection):
-    # 特定のドキュメントを削除
-    query = {"name": "HIKIDA YUU"}
-    delete_result = collection.delete_one(query)
-    print(f"Deleted documents: {delete_result.deleted_count}")
-
+# def db_delete(collection):
+#     # 特定のドキュメントを削除
+#     query = {"name": "HIKIDA YUU"}
+#     delete_result = collection.delete_one(query)
+#     print(f"Deleted documents: {delete_result.deleted_count}")
