@@ -1,3 +1,5 @@
+import asyncio
+
 from DataBaseModule import db_call, db_read
 from GetContributes import call_contributes
 
@@ -11,7 +13,8 @@ def main():
         document_count, documents = db_read(collection)
 
         print(f"取得したドキュメントの数: {document_count}")
-        # call_contributes(documents)
+        # 非同期スクレイピング実行
+        asyncio.run(call_contributes(documents))
         # DB閉じる
         client.close()
 
