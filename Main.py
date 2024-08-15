@@ -1,12 +1,10 @@
-import asyncio
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from DataBaseModule import db_call, db_read
 from GetContributes import get_contribute_main
 
 app = Flask(__name__)
 
-
-@app.route('/run-batch', methods=['POST'])
+@app.route('/')
 def run_batch():
     try:
         # DBに問い合わせ
@@ -17,8 +15,8 @@ def run_batch():
             document_count, documents = db_read(collection)
 
             print(f"取得したドキュメントの数は: {document_count}")
-            # 非同期スクレイピング実行
-            asyncio.run(get_contribute_main(documents))
+            # 同期的スクレイピング実行
+            get_contribute_main(documents)
 
             # DB閉じる
             client.close()
@@ -31,7 +29,5 @@ def run_batch():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
-
