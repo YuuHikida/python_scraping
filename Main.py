@@ -16,8 +16,7 @@ def run_batch():
             # クエリでsortされたUser情報格納変数
             document_count, documents = db_read(collection)
 
-            print(f"取得したドキュメントの数: {document_count}")
-
+            print(f"取得したドキュメントの数は: {document_count}")
             # 非同期スクレイピング実行
             asyncio.run(get_contribute_main(documents))
 
