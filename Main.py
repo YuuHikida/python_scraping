@@ -1,11 +1,15 @@
+import os
+
 from flask import Flask, jsonify
 from DataBaseModule import db_call, db_read
 from GetContributes import get_contribute_main
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def run_batch():
+
     try:
         # DBに問い合わせ
         client, collection = db_call()
@@ -29,5 +33,7 @@ def run_batch():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=True)
+
