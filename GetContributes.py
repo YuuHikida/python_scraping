@@ -6,6 +6,7 @@ from MailSend import mail_send
 # グローバル変数
 global_today = ""
 
+
 def fetch(url):
     try:
         response = requests.get(url)
@@ -16,10 +17,11 @@ def fetch(url):
             print(f"HTTPエラー {response.status_code}: {url} の処理中にエラーが発生しました。")
             return None
         else:
-            return response.text()
+            return response.text
     except requests.RequestException as e:
         print(f"HTTPエラー: {e}")
         return None
+
 
 def scrape(username):
     url = f"https://github.com/users/{username}/contributions"
@@ -29,6 +31,7 @@ def scrape(username):
         scraping(soup)
     # サーバーへの負荷を軽減するためのスリープ（必要に応じて）
     # time.sleep(1)
+
 
 def scraping(soup):
     contributions = soup.find_all("td", class_="ContributionCalendar-day")
@@ -61,11 +64,13 @@ def scraping(soup):
         # mail_send()  # メール送信処理
     print("------------------------------------------------")
 
+
 def call_contributes(documents):
     for doc in documents:
         username = doc.get("git_name")
         if username:
             scrape(username)
+
 
 def get_contribute_main(documents):
     global global_today
