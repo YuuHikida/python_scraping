@@ -5,8 +5,28 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 
+def read_environmental_variables():
+    # .envファイル読み込み(ローカル用)
+    load_dotenv()
+    # 環境変数から値を読み込み
+    username = os.environ.get("NAME")
+    password = os.environ.get("PASSWORD")
+
+    # ユーザー名とパスワードをエンコード
+    encoded_username = quote_plus(username)
+    encoded_password = quote_plus(password)
+
+    # 接続URIを構築
+    url_first = os.environ.get("URL_FIRST")
+    url_second = os.environ.get("URL_SECOND")
+
+    uri = f"{url_first}{encoded_username}:{encoded_password}{url_second}"
+
+    return uri
+
+
 def db_call():
-    uri = os.environ.get("URL")
+    uri = read_environmental_variables()
     # ↓DBサーバーにアクセスしているだけ
     client = MongoClient(uri, server_api=ServerApi('1'))
     # 指定された名前のdbにアクセス

@@ -1,14 +1,25 @@
 import os
 import functions_framework
+from dotenv import load_dotenv
 
-from DataBaseModule import db_call, db_read
+from DataBaseModule import db_call, db_read, read_environmental_variables
 from GetContributes import get_contribute_main
 
 
 @functions_framework.http
 def run_batch(request):
-    name = request.args.get("name", "World")
-    return f"Hello, {name}"
+    url = read_environmental_variables()
+    if url is None:
+        return "error", 500
+    return f"成功:{url}"
+
+    # client, collection = db_call()
+    #
+    # if client is None and collection is None:
+    #     # URLが取得できなかった場合、エラーレスポンスを返す
+    #     return "Environment variable URL is not set!!!!!.", 500
+    # return f"DB読み込み成功"
+
     #
     # try:
     #     # DBに問い合わせ
