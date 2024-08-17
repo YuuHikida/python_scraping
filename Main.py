@@ -1,7 +1,7 @@
 import os
 import functions_framework
 from dotenv import load_dotenv
-
+from flask import jsonify
 from DataBaseModule import db_call, db_read, read_environmental_variables
 from GetContributes import get_contribute_main
 
@@ -23,10 +23,13 @@ def run_batch(request):
             # DB閉じる
             client.close()
 
-            return f"{documents}", 200
+            # 成功を表示する
+            return "Batch job completed successfully!", 200
 
         else:
-            return "error: Failed to connect to database", 500
+            # エラーを表示する
+            return "Error: Failed to connect to database", 500
 
     except Exception as e:
-        return f"{e}", 500
+        # 例外を表示する
+        return f"Exception occurred: {e}", 500
