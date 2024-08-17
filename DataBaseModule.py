@@ -6,19 +6,9 @@ from pymongo.server_api import ServerApi
 
 
 def db_call():
-    # Cloud Functionsでは、環境変数を直接読み込む
-    username = os.environ.get('USERNAME')
-    password = os.environ.get('PASSWORD')
-
-    # ユーザー名とパスワードをエスケープ
-    escaped_username = quote_plus(username)
-    escaped_password = quote_plus(password)
-
-    uri = (f"mongodb+srv://{escaped_username}:{escaped_password}@gitinfocontributes.btqfi.mongodb.net/?retryWrites"
-           f"=true&w=majority&appName=gitInfoContributes")
+    uri = os.environ.get("URL")
     # ↓DBサーバーにアクセスしているだけ
     client = MongoClient(uri, server_api=ServerApi('1'))
-
     # 指定された名前のdbにアクセス
     # 存在しない場合、仮想dbを作成しdataが挿入された時点で物理的なdbが作成される
     db = client['gitInfoContributes']

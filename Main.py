@@ -1,15 +1,12 @@
 import os
+import functions_framework
 
-from flask import Flask, jsonify
 from DataBaseModule import db_call, db_read
 from GetContributes import get_contribute_main
 
-app = Flask(__name__)
 
-
-@app.route('/')
-def run_batch():
-
+@functions_framework.http
+def run_batch(request):
     try:
         # DBに問い合わせ
         client, collection = db_call()
@@ -25,15 +22,11 @@ def run_batch():
             # DB閉じる
             client.close()
 
-            return jsonify({'message': 'Batch job completed successfully', 'document_count': document_count}), 200
+            return f"{documents}", 200
 
         else:
-            return jsonify({'error': 'Failed to connect to database'}), 500
+            return "error: Failed to connect to database", 500
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=True)
+        return f"{e}", 500
 
