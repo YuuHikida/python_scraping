@@ -8,17 +8,12 @@ from GetContributes import get_contribute_main
 
 @functions_framework.http
 def run_batch(request):
-    url = read_environmental_variables()
-    if url is None:
-        return "error", 500
-    return f"成功:{url}"
+    client, collection = db_call()
 
-    # client, collection = db_call()
-    #
-    # if client is None and collection is None:
-    #     # URLが取得できなかった場合、エラーレスポンスを返す
-    #     return "Environment variable URL is not set!!!!!.", 500
-    # return f"DB読み込み成功"
+    if client is None and collection is None:
+        # URLが取得できなかった場合、エラーレスポンスを返す
+        return "Environment variable URL is not set!!!!!.", 500
+    return f"DB読み込み成功"
 
     #
     # try:
