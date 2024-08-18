@@ -56,7 +56,7 @@ def scraping(soup, user_time, user_name):
     current_time = round_to_nearest_30_minutes(current_time_japan)
 
     if user_time == current_time:
-        print("userが設定した時刻と現在の時間が一致。処理を開始します")
+        print(f"userが設定した時刻と現在の時間が一致、処理を開始します->対象githubユーザー名:{user_name}")
         now_time_judge = True
 
     if now_time_judge:
