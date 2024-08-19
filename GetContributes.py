@@ -1,6 +1,7 @@
 import requests
 # import inspect
 
+from mailSender import mail_sender_main
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone, timedelta
 
@@ -24,12 +25,12 @@ def fetch(url):
         return None
 
 
-def scrape(user_name, user_time):
+def scrape(user_name, user_time, user_mail):
     url = f"https://github.com/users/{user_name}/contributions"
     html = fetch(url)
     if html:
         soup = BeautifulSoup(html, "html.parser")
-        scraping(soup, user_time, user_name)
+        scraping(soup, user_time, user_name, user_mail)
     # サーバーへの負荷を軽減するためのスリープ（必要に応じて）
     # time.sleep(1)
 
@@ -47,7 +48,7 @@ def round_to_nearest_30_minutes(dt):
     return rounded_time
 
 
-def scraping(soup, user_time, user_name):
+def scraping(soup, user_time, user_name, user_mail):
     # 取得したuserのスクレイピング時間か判定
     now_time_judge = False
     # 現在のUTC時間を取得して30分単位に丸め、日本時間に変換
@@ -56,7 +57,8 @@ def scraping(soup, user_time, user_name):
     current_time = round_to_nearest_30_minutes(current_time_japan)
 
     if user_time == current_time:
-        print(f"userが設定した時刻と現在の時間が一致、処理を開始します->対象githubユーザー名:{user_name}")
+        print("userが設定した時刻と現在の時間が一致")
+        print(f"処理を開始します->対象githubユーザー名:{user_name}")
         now_time_judge = True
 
     if now_time_judge:
@@ -87,19 +89,22 @@ def scraping(soup, user_time, user_name):
             print(f"今日はコントリビューションがあります 日付: {global_today}")
         else:
             print(f"今日はコントリビューションがありません 日付: {global_today}")
-            # mail_send()  # メール送信処理
+            # メール送信処理
+            mail_sender_main(user_mail)
         print("------------------------------------------------")
     else:
+        print("userが設定した時刻と現在の時間が不一致")
         print(f"現在の時間はメールは送信されませんでした->対象githubユーザー名:{user_name}")
 
 
 def call_contributes(documents):
     for doc in documents:
-        user_name = doc.get("git_name")
-        if user_name is not None:
-            # 取得したuserのスクレイピング時間か判定
-            user_time = doc.get("time")
-            scrape(user_name, user_time)
+        user_info = {
+            'user_name': doc.get("git_name"),
+            'user_time': doc.get("time"),
+            'user_mail': doc.get("mail")
+        }
+        scrape(**user_info)  # 辞書をアンパックして関数に渡す
 
 
 def get_contribute_main(documents):
