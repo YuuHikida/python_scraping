@@ -8,20 +8,21 @@ from email.mime.text import MIMEText
 def mail_sender_main(user_email):
     # .envファイル読み込み(ローカル用)
     load_dotenv()
-    sender_email = os.environ.get("SENDER_EMAIL")
-    password = os.environ.get("PASSWORD_EMAIL")
 
-    if sender_email is not None and password is not None:
-        mail_sender(sender_email, password, user_email)
+    # 環境変数の取得
+    sender_email = os.getenv("SENDER_EMAIL")
+    password = os.getenv("PASSWORD_EMAIL")
+
+    if sender_email and password:
+        return mail_sender(sender_email, password, user_email)
     else:
         # エラーを表示する
-        print("mailかpasswordが取得できませんでした")
-        return "Error: Failed to get E-Mail or AppPassWord", 500
+        error_msg = "Error: Failed to get E-Mail or App Password"
+        print(error_msg)
+        return error_msg, 500
 
 
 def mail_sender(sender_email, password, user_email):
-    # Gmailアカウント情報
-
     # メールの設定
     receiver_email = user_email
     subject = 'テストメール'
@@ -36,12 +37,16 @@ def mail_sender(sender_email, password, user_email):
 
     # Gmailサーバーへの接続とメール送信
     try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()  # 暗号化された接続の開始
-        server.login(sender_email, password)
-        server.send_message(msg)
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()  # 暗号化された接続の開始
+            server.login(sender_email, password)
+            server.send_message(msg)
         print('メールが送信されました')
+    except smtplib.SMTPAuthenticationError:
+        error_msg = 'SMTP Authentication Error: Check your email and password.'
+        print(error_msg)
+        return error_msg, 500
     except Exception as e:
-        print(f'エラーが発生しました: {e}')
-    finally:
-        server.quit()
+        error_msg = f'エラーが発生しました: {e}'
+        print(error_msg)
+        return error_msg, 500
