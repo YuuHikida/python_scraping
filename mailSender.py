@@ -25,8 +25,8 @@ def mail_sender_main(user_email):
 def mail_sender(sender_email, password, user_email):
     # メールの設定
     receiver_email = user_email
-    subject = 'テストメール'
-    body = 'これはPythonから送信されたテストメールです。'
+    subject = '本日のあなたのGitContributeについて'
+    body = '本日のGitへのpushがまだのようです！'
 
     # メールメッセージの作成
     msg = MIMEMultipart()
