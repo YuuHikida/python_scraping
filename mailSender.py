@@ -26,7 +26,7 @@ def mail_sender(sender_email, password, user_email):
     # メールの設定
     receiver_email = user_email
     subject = '本日のあなたのGitContributeについて'
-    body = '本日のGitへのpushがまだのようです！'
+    body = 'Gitへのpushがまだのようです！'
 
     # メールメッセージの作成
     msg = MIMEMultipart()
